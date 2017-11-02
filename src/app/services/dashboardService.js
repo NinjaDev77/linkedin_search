@@ -13,6 +13,12 @@ uiApp.factory('dashboardService',function($http,$location,$window){
             token: token
         }
         return $http.post('/getAll',obj,{});
+    };
+
+    dashboadFactory.logout= function(){
+        //$http.defaults.headers.common.token();
+
+        return $http.get('/logout',{});
     }
     return dashboadFactory ;
 

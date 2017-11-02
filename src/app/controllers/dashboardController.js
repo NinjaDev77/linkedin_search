@@ -50,12 +50,15 @@ uiApp.controller('dashboardCtrl',function($scope,$timeout,dashboardService,$wind
             $scope.queryString="("
             angular.forEach($scope.titlesArray,function(obj,index){
                 //console.log(obj)
+                var title = obj.title;
+                var isWhiteSpace= title.indexOf(' ');
+                var str = (isWhiteSpace == -1) ? title : `"${title}"` ;
                 if ( $scope.titlesArray.length-1 === index ){
 
-                    $scope.queryString= $scope.queryString + `title: "${obj.title}")` ;
+                    $scope.queryString= $scope.queryString + `title:${str})` ;
 
                 } else {
-                    $scope.queryString= $scope.queryString + `title: "${obj.title}" ${obj.type} `
+                    $scope.queryString= $scope.queryString + `title:${str} ${obj.type} `
                 }
             });
         }
@@ -71,7 +74,7 @@ uiApp.controller('dashboardCtrl',function($scope,$timeout,dashboardService,$wind
                 var str = (isWhiteSpace == -1) ? obj : `"${obj}"` ;
                 if ( companyArr.length-1 === index && obj !==''){
 
-                    $scope.queryString= $scope.queryString + ` company:${str})` ;
+                    $scope.queryString= $scope.queryString + `company:${str})` ;
 
                 } else {
 
@@ -118,8 +121,15 @@ uiApp.controller('dashboardCtrl',function($scope,$timeout,dashboardService,$wind
     }
     $scope.getAll();
     $scope.logout=function(){
-        $window.localStorage.removeItem('token');
-        $location.path('/login');
+        dashboardService.logout().then(function(data){
+            //console.log(data);
+            if (data.status===200){
+                $window.localStorage.removeItem('token');
+                $location.path('/login');
+            }
+        });
+        // $window.localStorage.removeItem('token');
+        // $location.path('/login');
     }
 });
 

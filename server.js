@@ -22,7 +22,7 @@ var cookieParser = require('cookie-parser');
 	app.use(cors());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended : true}));
-	app.use(express.static(__dirname + '/public'));
+	app.use(express.static(__dirname + '/src'));
 
 	app.use(cookieParser());
 	app.use(session({
@@ -33,17 +33,19 @@ var cookieParser = require('cookie-parser');
 	app.use(passport.initialize());
 	app.use(passport.session());
 
+
+
 // api router
-	app.use('/',appRoutes);
+  app.use('/',appRoutes);
 
 
 // path for the static content or web
-	app.get('/',function(req,res){
-		res.sendFile(path.join(__dirname + '/public/index.html'))
-	});
-	console.log(process.env.facebook_clientID);
+  app.get('/',function(req,res){
+      res.sendFile(path.join(__dirname + '/src/index.html'))
+  });
+  console.log(process.env.facebook_clientID);
 
 // server is listening
-	app.listen(port,function  () {
-		console.log('Running on port '+ port);
-	});
+  app.listen(port,function  () {
+      console.log('Running on port '+ port);
+  });
